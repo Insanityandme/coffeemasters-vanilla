@@ -7,6 +7,7 @@ const Router = {
         const url = event.target.getAttribute("href");
         Router.go(url);
       });
+
       // Event Handler for URL changes
       window.addEventListener("popstate", event => {
         Router.go(event.state.route, false);

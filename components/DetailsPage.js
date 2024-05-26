@@ -1,11 +1,12 @@
-import { getProductById } from '../services/Menu.js';
+import {getProductById} from '../services/Menu.js';
+import {addToCart} from "../services/Order.js";
 
 export default class DetailsPage extends HTMLElement {
 
   constructor() {
     super();
 
-    this.root = this.attachShadow({ mode: "open" });
+    this.root = this.attachShadow({mode: "open"});
 
     const template = document.getElementById("details-page-template");
     const content = template.content.cloneNode(true);
@@ -17,6 +18,7 @@ export default class DetailsPage extends HTMLElement {
       const request = await fetch("/components/DetailsPage.css");
       styles.textContent = await request.text();
     }
+
     loadCSS();
   }
 
@@ -27,8 +29,8 @@ export default class DetailsPage extends HTMLElement {
       this.root.querySelector("img").src = `/data/images/${this.product.image}`;
       this.root.querySelector(".description").textContent = this.product.description;
       this.root.querySelector(".price").textContent = `$ ${this.product.price.toFixed(2)} ea`
-      this.root.querySelector("button").addEventListener("click", ()=> {
-        // TODO addToCart(this.product.id);
+      this.root.querySelector("button").addEventListener("click", () => {
+        addToCart(this.product.id);
         app.router.go('/order');
       })
     } else {
@@ -41,5 +43,3 @@ export default class DetailsPage extends HTMLElement {
   }
 
 }
-
-customElements.define("details-page", DetailsPage);
